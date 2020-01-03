@@ -1,0 +1,46 @@
+.collection.with-header .collection-item {
+	padding-left: 30px;
+}
+.collection .collection-item {
+	display: flex;
+	justify-content: space-between;
+	background-color: #fff;
+	line-height: 3rem;
+	padding: 10px 20px;
+	margin: 0;
+	border-bottom: 1px solid #e0e0e0;
+	align-items: center;
+}
+
+.collection h1 {
+	margin: 0;
+	font-size: 1.5rem;
+	color: #060d16;
+}
+
+.collection h2,
+p {
+	margin: 0;
+	font-size: 1rem;
+	color: #181d24;
+}
+.collection__header {
+	color: #081931;
+}
+
+.detail__content {
+	display: flex;
+	justify-content: space-between;
+	background-color: #fff;
+	line-height: 2.5rem;
+	padding: 10px 10% 10px 10%;
+	margin: 0;
+	border-bottom: 1px solid #b2baca;
+	align-items: center;
+	font-size: 1.6rem;
+}
+
+.detail__label {
+	color: #3d434b;
+	font-size: 1rem;
+}

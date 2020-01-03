@@ -1,0 +1,38 @@
+* {
+	font-family: sans-serif;
+}
+#pages {
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+}
+
+.corre {
+	padding-left: 1rem !important;
+}
+
+.main-nav__items a.active {
+	color: #fff;
+}
+
+.btn-center {
+	text-align: center;
+}
+
+button {
+	margin: 0.1rem;
+}
+
+.page-title {
+	text-align: center;
+}
+
+.fade-enter {
+	opacity: 0;
+	z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+	opacity: 1;
+	transition: opacity 250ms ease-in;
+}

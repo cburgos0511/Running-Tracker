@@ -1,0 +1,56 @@
+.modal {
+	z-index: 5;
+	position: fixed;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	max-height: 100%;
+	background: rgba(0, 0, 0, 0.85);
+}
+
+.modal__main {
+	position: fixed;
+	background: white;
+	width: 40%;
+	height: auto;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 4px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.26);
+	padding-bottom: 0.1rem;
+}
+
+.modal__title {
+	text-align: center;
+	padding: 1rem;
+	background: #2196f3;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	color: #fff;
+}
+
+.modal__title h5 {
+	margin: 0;
+}
+
+.modal__content {
+	padding: 1.2rem;
+	color: #091118;
+}
+
+.modal__actions {
+	padding-right: 0.5rem;
+}
+
+.display-block {
+	display: block;
+}
+
+.display-none {
+	display: none;
+}
+
+.subtitle {
+	font-size: 1rem;
+}

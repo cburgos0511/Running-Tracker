@@ -1,0 +1,27 @@
+{
+	"name": "graphqlrun",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"start": "nodemon app.js"
+	},
+	"author": "Cruz Burgos",
+	"license": "ISC",
+	"dependencies": {
+		"apollo": "^2.21.2",
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"express": "^4.17.1",
+		"express-graphql": "^0.9.0",
+		"graphql": "^14.5.8",
+		"jsonwebtoken": "^8.5.1",
+		"lodash": "^4.17.15",
+		"mongoose": "^5.8.3",
+		"nodemon": "^2.0.2",
+		"react-apollo": "^3.1.3",
+		"react-router-dom": "^5.1.2",
+		"react-scripts": "^3.3.0",
+		"react-transition-group": "^4.3.0"
+	}
+}
