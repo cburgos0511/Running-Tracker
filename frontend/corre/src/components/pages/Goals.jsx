@@ -50,11 +50,11 @@ const Goals = () => {
 					<div className='row'>
 						<div className='input-field col s6'>
 							<label htmlFor='start_date'>Start Date</label>
-							<input type='date' placeholder='' className='validate' id='start_date' value={startDate} onChange={e => setStartDate(e.target.value)} />
+							<input type='date' className='validate' placeholder='Start Date' id='start_date' value={startDate} onChange={e => setStartDate(e.target.value)} />
 						</div>
 						<div className='input-field col s6'>
 							<label htmlFor='end_date'>End Date</label>
-							<input type='date' placeholder='' className='validate' id='end_date' value={endDate} onChange={e => setEndDate(e.target.value)} />
+							<input type='date' className='validate' placeholder='End Date' id='end_date' value={endDate} onChange={e => setEndDate(e.target.value)} />
 						</div>
 					</div>
 				</form>
@@ -105,7 +105,6 @@ const Goals = () => {
 				return res.json();
 			})
 			.then(resData => {
-				console.log(resData);
 				refetch();
 			})
 			.catch(err => {

@@ -1,6 +1,8 @@
 * {
 	font-family: sans-serif;
+	overflow: visible !important;
 }
+
 #pages {
 	position: absolute;
 	height: 100vh;
@@ -35,4 +37,80 @@ button {
 .fade-enter.fade-enter-active {
 	opacity: 1;
 	transition: opacity 250ms ease-in;
+}
+
+/* RUNS */
+#add-run-btn {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+#delete-btn {
+	color: rgba(255, 0, 0, 0.774);
+}
+
+#edit-btn {
+	color: #2196f3;
+	margin-left: 1rem;
+}
+
+#delete-btn,
+#edit-btn,
+#add-run-btn {
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+#delete-btn:hover,
+#edit-btn:hover,
+#add-run-btn:hover {
+	transform: scale(1.1);
+}
+
+/* TABS */
+.tabs-container {
+	padding: 10px 0 0 0;
+	position: relative;
+	width: 100%;
+	height: 60px;
+}
+#tabs {
+	position: absolute;
+	left: 0;
+	margin-left: -10px;
+	margin-top: 0.15rem;
+	width: 10vw;
+}
+
+.tabs .tab a {
+	color: rgba(43, 43, 43, 0.849) !important;
+	font-size: 0.5rem;
+	text-align: center;
+	padding: 0;
+}
+
+.tabs .tab a:hover {
+	color: rgb(0, 0, 0) !important;
+}
+
+.tabs .tab a:active {
+	color: blue !important;
+}
+.tabs .tab a:focus {
+	background-color: rgba(124, 169, 228, 0.1) !important;
+}
+.tabs .tab a:focus:active {
+	background-color: rgba(124, 169, 228, 0.1) !important;
+}
+
+.indicator {
+	background-color: rgb(13, 108, 216) !important;
+}
+#sort {
+	transform: rotate(-90deg);
+}
+
+.tooltip {
+	font-family: sans-serif !important;
+	font-size: 1.1rem;
+	font-weight: 200 !important;
 }

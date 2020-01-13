@@ -13,8 +13,6 @@ export default class Auth extends Component {
 	static contextType = AuthContext;
 
 	handleSubmit = e => {
-		console.log("I have been clicked");
-
 		const { firstName, lastName, age, email, password, isLogin } = this.state;
 		e.preventDefault();
 
@@ -60,7 +58,6 @@ export default class Auth extends Component {
 				return res.json();
 			})
 			.then(resData => {
-				console.log(resData);
 				if (resData.data.login.token) {
 					this.context.login(resData.data.login.token, resData.data.login.userId, resData.data.login.tokenExperation);
 				}

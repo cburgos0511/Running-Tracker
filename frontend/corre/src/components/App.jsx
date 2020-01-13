@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-import ApolloClient from "apollo-boost";
+import { ApolloClient, HttpLink, InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Auth from "./pages/Auth";
@@ -30,9 +30,24 @@ export default class App extends Component {
 	};
 
 	render() {
+		const httpLink = new HttpLink({ uri: "http://localhost:4000/graphql" });
+
 		const client = new ApolloClient({
-			uri: "http://localhost:4000/graphql",
+			request: operation => {
+				const token = localStorage.getItem("token");
+
+				debugger;
+				operation.setContex({
+					headers: {
+						"Content-Type": "application/json",
+						authorization: token ? `Bearer ${token}` : "",
+					},
+				});
+			},
+			link: httpLink,
+			cache: new InMemoryCache(),
 		});
+
 		return (
 			<ApolloProvider client={client}>
 				<BrowserRouter>

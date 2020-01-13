@@ -16,6 +16,11 @@ const runSchema = new Schema({
 	seconds: {
 		type: Number,
 	},
+	date: {
+		type: Date,
+		default: Date.now,
+		required: true,
+	},
 	runner: {
 		type: Schema.Types.ObjectId,
 		ref: "User",

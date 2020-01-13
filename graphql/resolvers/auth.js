@@ -5,7 +5,7 @@ const { goals, runs } = require("./merge");
 
 module.exports = {
 	users: async (args, req) => {
-		if (!req.isAuth) {
+		if (req.isAuth) {
 			throw new Error("Unauthenticated!");
 		}
 		try {
@@ -17,6 +17,18 @@ module.exports = {
 					runs: runs.bind(this, user._doc.runs),
 				};
 			});
+		} catch (err) {
+			throw err;
+		}
+	},
+	user: async ({ userId }) => {
+		try {
+			const fetchedUser = await User.findOne({ _id: userId });
+			return {
+				...fetchedUser._doc,
+				createdGoals: goals.bind(this, fetchedUser._doc.createdGoals),
+				runs: runs.bind(this, fetchedUser._doc.runs),
+			};
 		} catch (err) {
 			throw err;
 		}

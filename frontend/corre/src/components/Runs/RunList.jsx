@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery } from "@apollo/react-hooks";
-import RUNS_QUERY from "../../queries/fetchRuns";
+import FETCH_USER from "../../queries/fetchUser";
 import RunItem from "../Runs/RunItem";
+import AuthContext from "../../context/auth-context";
 
 const RunsList = () => {
-	const { loading, error, data } = useQuery(RUNS_QUERY);
+	const { userId } = useContext(AuthContext);
+	const { loading, error, data } = useQuery(FETCH_USER, {
+		variables: { userId },
+	});
 
 	if (loading)
 		return (
@@ -15,16 +19,22 @@ const RunsList = () => {
 
 	if (error) return <p>Error </p>;
 
-	const runs = data.runs.map(run => {
-		return <RunItem key={run._id} mile={run.miles} hour={run.hours} minute={run.minutes} second={run.seconds} />;
+	const runs = data.user.runs.map(run => {
+		return <RunItem key={run._id} mile={run.miles} hour={run.hours} minute={run.minutes} second={run.seconds} date={run.date} id={run._id} />;
 	});
+
 	return (
-		<ul className='collection with-header'>
-			<li className='collection-header'>
-				<h3 className='collection__header'>My Runs</h3>
-			</li>
-			{runs}
-		</ul>
+		<table>
+			<thead>
+				<tr>
+					<th>Miles</th>
+					<th className='center'>Time</th>
+					<th className='center'>Avg. Mile (min)</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>{runs}</tbody>
+		</table>
 	);
 };
 

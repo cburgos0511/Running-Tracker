@@ -50,14 +50,17 @@ module.exports = buildSchema(`
         hours: Float
         minutes: Float
         seconds: Float
+        date: String!
         runner: User!
     }
 
     input RunInput {
+        userId: ID!
         miles: Float!
         hours: Float
         minutes: Float
         seconds: Float
+        date: String!
     }
 
     type AuthData {
@@ -68,6 +71,7 @@ module.exports = buildSchema(`
 
     type RootQuery {
         users: [User!]!
+        user(userId: ID!): User!
         goals: [Goal!]!
         runs: [Run!]!
         participants: [Participant!]!
@@ -78,6 +82,7 @@ module.exports = buildSchema(`
         createGoal(goalInput: GoalInput): Goal
         createUser(userInput: UserInput): User
         createRun(runInput: RunInput): Run
+        deleteRun(runId: ID!): Run!
         joinGoal(goalId: ID!): Goal!
         leaveGoal(participantId: ID!): Goal!
     }

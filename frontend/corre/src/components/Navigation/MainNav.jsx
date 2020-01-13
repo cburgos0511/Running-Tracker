@@ -14,15 +14,15 @@ const MainNav = () => (
 							<li>
 								<NavLink to='/goals'>Goals</NavLink>
 							</li>
-
-							<li>
-								<NavLink to='/runs'>Runs</NavLink>
-							</li>
 							{context.token && (
 								<>
 									<li>
+										<NavLink to='/runs'>Runs</NavLink>
+									</li>
+									<li>
 										<NavLink to='/account'>Account</NavLink>
 									</li>
+
 									<li>
 										<NavLink onClick={context.logout} to='/auth'>
 											Logout

@@ -1,17 +1,34 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext, useState } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import AuthContext from "../../context/auth-context";
 import Modal from "../Modal/Modal";
 import RunsList from "../Runs/RunList";
-import RUN_QUERY from "../../queries/fetchRuns";
+import FETCH_USER from "../../queries/fetchUser";
+import RunBar from "../Runs/RunBar";
+import RunPlot from "../Runs/RunPlot";
+import { gql } from "apollo-boost";
+
+const CREATE_RUN = gql`
+	mutation CreateRun($userId: ID!, $miles: Float!, $hours: Float, $minutes: Float, $seconds: Float, $date: String!) {
+		createRun(runInput: { userId: $userId, miles: $miles, hours: $hours, minutes: $minutes, seconds: $seconds, date: $date }) {
+			miles
+			hours
+			minutes
+			seconds
+			date
+		}
+	}
+`;
 
 const Runs = () => {
-	const { refetch } = useQuery(RUN_QUERY);
 	const [isOpen, setIsOpen] = useState(false);
 	const [hours, setHours] = useState("");
 	const [miles, setMiles] = useState("");
 	const [minutes, setMinutes] = useState("");
 	const [seconds, setSeconds] = useState("");
+	const [date, setDate] = useState("");
+	const [view, setView] = useState("list");
 
 	const context = useContext(AuthContext);
 
@@ -25,14 +42,18 @@ const Runs = () => {
 							<input type='text' className='validate' id='miles' value={miles} onChange={e => setMiles(e.target.value)} />
 						</div>
 					</div>
-
+					<div className='row'>
+						<div className='input-field col s12'>
+							<label htmlFor='date'>Date</label>
+							<input type='date' className='validate' placeholder='DD/MM/YYYY' id='date' value={date} onChange={e => setDate(e.target.value)}></input>
+						</div>
+					</div>
 					<div className='row'>
 						<div className='input-field col s12'>
 							<label htmlFor='hour'>Hours</label>
 							<input type='text' className='validate' id='hour' maxLength='120' value={hours} onChange={e => setHours(e.target.value)}></input>
 						</div>
 					</div>
-
 					<div className='row'>
 						<div className='input-field col s6'>
 							<label htmlFor='minutes'>Minutes</label>
@@ -47,6 +68,25 @@ const Runs = () => {
 			</div>
 		);
 	};
+
+	const [createRun] = useMutation(CREATE_RUN, {
+		variables: { userId: context.userId, miles: parseFloat(miles), hours: parseFloat(hours), minutes: parseFloat(minutes), seconds: parseFloat(seconds), date },
+		refetchQueries: () => [
+			{
+				query: FETCH_USER,
+				variables: {
+					userId: context.userId,
+				},
+			},
+		],
+	});
+	const reset = () => {
+		setHours("");
+		setMiles("");
+		setMinutes("");
+		setSeconds("");
+		setDate("");
+	};
 	const openModal = () => {
 		setIsOpen(true);
 	};
@@ -56,20 +96,81 @@ const Runs = () => {
 	};
 
 	const onCreate = e => {
-		setIsOpen(false);
 		e.preventDefault();
 
-		const request = {
+		createRun();
+		reset();
+		setIsOpen(false);
+	};
+
+	const iconColor = isOpen ? "grey darken-3" : "blue darken-1";
+	return (
+		<>
+			<Modal onCancel={onCancel} onCreate={onCreate} show={isOpen} withCancel withCreate actionName='Create' title='Add Run'>
+				{renderCreateRunForm()}
+			</Modal>
+
+			<div className='container'>
+				<div className='tabs-container'>
+					<div id='tabs' className='row'>
+						<div className='col s12'>
+							<ul className='tabs'>
+								<li className='tab col s3' onClick={() => setView("list")}>
+									<a href='#'>
+										<i className='material-icons'>list</i>
+									</a>
+								</li>
+								<li className='tab col s3' onClick={() => setView("bar")}>
+									<a href='#'>
+										<i id='sort' className='material-icons'>
+											sort
+										</i>
+									</a>
+								</li>
+								<li className='tab col s3' onClick={() => setView("plot")}>
+									<a href='#'>
+										<i className='material-icons'>timeline</i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					{view !== "list" ? (
+						<div></div>
+					) : (
+						<>
+							<div onClick={openModal} id='add-run-btn' className={`right waves-effect waves-light btn-floating ${iconColor}`}>
+								<i className='material-icons'>add</i>
+							</div>
+						</>
+					)}
+				</div>
+				{view === "list" ? <RunsList /> : view === "bar" ? <RunBar /> : <RunPlot />}
+			</div>
+		</>
+	);
+};
+
+export default Runs;
+/* 		const request = {
 			query: `
-				mutation {
-					createRun(runInput: {miles: "${miles}", hours: "${hours}", minutes: ${minutes}, seconds: "${seconds}"}) {
+				mutation CreateRun($miles: Float!, $hr: Float, $min: Float, $sec: Float, $date: String!) {
+					createRun(runInput: {miles: $miles, hours: $hr, minutes: $min, seconds: $sec, date: $date}) {
 						miles
 						hours
 						minutes
 						seconds
+						date
 					}
 				}
 			`,
+			variables: {
+				miles: parseFloat(miles),
+				hr: parseFloat(hours),
+				min: parseFloat(minutes),
+				sec: parseFloat(seconds),
+				date: date,
+			},
 		};
 
 		const token = context.token;
@@ -89,27 +190,10 @@ const Runs = () => {
 				return res.json();
 			})
 			.then(resData => {
-				console.log(resData);
 				refetch();
+				setIsOpen(false);
+				reset();
 			})
 			.catch(err => {
 				console.log(err);
-			});
-	};
-
-	const iconColor = isOpen ? "grey darken-3" : "blue darken-1";
-
-	return (
-		<div className='container'>
-			<Modal onCancel={onCancel} onCreate={onCreate} show={isOpen} withCancel withCreate actionName='Create' title='Add Run'>
-				{renderCreateRunForm()}
-			</Modal>
-			<RunsList />
-			<div onClick={openModal} className={`right waves-effect waves-light btn-floating ${iconColor}`}>
-				<i className='material-icons'>add</i>
-			</div>
-		</div>
-	);
-};
-
-export default Runs;
+			}); */
